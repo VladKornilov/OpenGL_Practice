@@ -68,7 +68,7 @@ GLuint createShader(){
 
         void main () {
             //gl_FragColor = vec4(vColor, 1.0);
-            gl_FragColor = texture2D(newTexture0, vTexture) * vec4(vColor, 1.0);
+            gl_FragColor = texture2D(newTexture0, vTexture + 0.5f) * vec4(vColor, 1.0);
             int i;
             int j;
             for (i = -1; i <= 1; i++) {

@@ -205,19 +205,45 @@ int main(int argc, char *argv[]) {
     // текущее время
     double time = glfwGetTime();
 
-    // Загрузка текстуры
-    ImageData info = loadPngImage("/home/vlad/GraphicalSystems/OpenGL_Practice/res/test.png");
-    uint textureId = 0;
-    if(info.loaded){
-        glGenTextures(1, &textureId);
-        glBindTexture(GL_TEXTURE_2D, textureId);
+    // Загрузка текстур
+    ImageData *obamaInfo[6];
+    GLuint obamaTexturesId[6];
+
+    for (int i = 0; i < 6; i++) {
+        string path = "/home/vlad/GraphicalSystems/OpenGL_Practice/res/";
+        string image = "obama";
+        char id = '0' + i;
+        image.append(1, id);
+        image += ".png";
+        cout << path + image << endl;
+        obamaInfo[i] = new ImageData(loadPngImage((path + image).c_str()));
+    }
+
+    glGenTextures(6, obamaTexturesId);
+    for (int i = 0; i < 6; i++) {
+        glBindTexture(GL_TEXTURE_2D, obamaTexturesId[i]);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,              // формат внутри OpenGL
-                     info.width, info.height, 0,            // ширинна, высота, границы
-                     info.withAlpha ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, info.data); // формат входных данных
+                     obamaInfo[i]->width, obamaInfo[i]->height, 0,            // ширинна, высота, границы
+                     obamaInfo[i]->withAlpha ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, obamaInfo[i]->data); // формат входных данных
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         CHECK_GL_ERRORS();
     }
+
+    // Загрузка текстуры
+//    ImageData info = loadPngImage("/home/vlad/GraphicalSystems/OpenGL_Practice/res/test.png");
+//    GLuint textureId = 0;
+//    if(info.loaded){
+//        glGenTextures(1, &textureId);
+//        glBindTexture(GL_TEXTURE_2D, textureId);
+//        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,              // формат внутри OpenGL
+//                     info.width, info.height, 0,            // ширинна, высота, границы
+//                     info.withAlpha ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, info.data); // формат входных данных
+//        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+//        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//        CHECK_GL_ERRORS();
+//    }
+
     while (!glfwWindowShouldClose(window)){
         // приращение времени
         double newTime = glfwGetTime();
@@ -226,12 +252,15 @@ int main(int argc, char *argv[]) {
 
         // wipe the drawing surface clear
         glClearColor(0.0, 0.0, 0.0, 1.0);
-        glEnable(GL_DEPTH_TEST);
+        //glEnable(GL_DEPTH_TEST);
         glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, textureId);
+        for (int i = 0; i < 6; i++) {
+            glActiveTexture(GL_TEXTURE0 + i);
+            glBindTexture(GL_TEXTURE_2D, obamaTexturesId[i]);
+        }
+
 
         glUseProgram (shaderProgram);
 

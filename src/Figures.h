@@ -18,58 +18,58 @@ using namespace glm;
 int cubeVertexCount = 6 * 2 * 3;
 Vertex cubeVertexes[] = {
     //front
-    Vertex(vec3(-0.5f, -0.5f,  0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2(-0.5f, -0.5f)),
-    Vertex(vec3( 0.5f,  0.5f,  0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2( 0.5f,  0.5f)),
-    Vertex(vec3(-0.5f,  0.5f,  0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2(-0.5f,  0.5f)),
+    Vertex(vec3(-0.5f, -0.5f,  0.5f),   vec3(1, 1, 1),   vec2(-0.5f, -0.5f)),
+    Vertex(vec3( 0.5f,  0.5f,  0.5f),   vec3(1, 1, 1),   vec2( 0.5f,  0.5f)),
+    Vertex(vec3(-0.5f,  0.5f,  0.5f),   vec3(1, 1, 1),   vec2(-0.5f,  0.5f)),
 
-    Vertex(vec3(-0.5f, -0.5f,  0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2(-0.5f, -0.5f)),
-    Vertex(vec3( 0.5f, -0.5f,  0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2( 0.5f, -0.5f)),
-    Vertex(vec3( 0.5f,  0.5f,  0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2( 0.5f,  0.5f)),
+    Vertex(vec3(-0.5f, -0.5f,  0.5f),   vec3(1, 1, 1),   vec2(-0.5f, -0.5f)),
+    Vertex(vec3( 0.5f, -0.5f,  0.5f),   vec3(1, 1, 1),   vec2( 0.5f, -0.5f)),
+    Vertex(vec3( 0.5f,  0.5f,  0.5f),   vec3(1, 1, 1),   vec2( 0.5f,  0.5f)),
 
     //right
-    Vertex(vec3( 0.5f, -0.5f,  0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2(-0.5f, -0.5f)),
-    Vertex(vec3( 0.5f,  0.5f, -0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2( 0.5f,  0.5f)),
-    Vertex(vec3( 0.5f,  0.5f,  0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2(-0.5f,  0.5f)),
+    Vertex(vec3( 0.5f, -0.5f,  0.5f),   vec3(1, 1, 1),   vec2(-0.5f, -0.5f)),
+    Vertex(vec3( 0.5f,  0.5f, -0.5f),   vec3(1, 1, 1),   vec2( 0.5f,  0.5f)),
+    Vertex(vec3( 0.5f,  0.5f,  0.5f),   vec3(1, 1, 1),   vec2(-0.5f,  0.5f)),
 
-    Vertex(vec3( 0.5f, -0.5f,  0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2(-0.5f, -0.5f)),
-    Vertex(vec3( 0.5f, -0.5f, -0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2( 0.5f, -0.5f)),
-    Vertex(vec3( 0.5f,  0.5f, -0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2( 0.5f,  0.5f)),
+    Vertex(vec3( 0.5f, -0.5f,  0.5f),   vec3(1, 1, 1),   vec2(-0.5f, -0.5f)),
+    Vertex(vec3( 0.5f, -0.5f, -0.5f),   vec3(1, 1, 1),   vec2( 0.5f, -0.5f)),
+    Vertex(vec3( 0.5f,  0.5f, -0.5f),   vec3(1, 1, 1),   vec2( 0.5f,  0.5f)),
 
     //back
-    Vertex(vec3( 0.5f, -0.5f, -0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2(-0.5f, -0.5f)),
-    Vertex(vec3(-0.5f,  0.5f, -0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2( 0.5f,  0.5f)),
-    Vertex(vec3( 0.5f,  0.5f, -0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2(-0.5f,  0.5f)),
+    Vertex(vec3( 0.5f, -0.5f, -0.5f),   vec3(1, 1, 1),   vec2(-0.5f, -0.5f)),
+    Vertex(vec3(-0.5f,  0.5f, -0.5f),   vec3(1, 1, 1),   vec2( 0.5f,  0.5f)),
+    Vertex(vec3( 0.5f,  0.5f, -0.5f),   vec3(1, 1, 1),   vec2(-0.5f,  0.5f)),
 
-    Vertex(vec3( 0.5f, -0.5f, -0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2(-0.5f, -0.5f)),
-    Vertex(vec3(-0.5f, -0.5f, -0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2( 0.5f, -0.5f)),
-    Vertex(vec3(-0.5f,  0.5f, -0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2( 0.5f,  0.5f)),
+    Vertex(vec3( 0.5f, -0.5f, -0.5f),   vec3(1, 1, 1),   vec2(-0.5f, -0.5f)),
+    Vertex(vec3(-0.5f, -0.5f, -0.5f),   vec3(1, 1, 1),   vec2( 0.5f, -0.5f)),
+    Vertex(vec3(-0.5f,  0.5f, -0.5f),   vec3(1, 1, 1),   vec2( 0.5f,  0.5f)),
 
     //left
-    Vertex(vec3(-0.5f, -0.5f, -0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2(-0.5f, -0.5f)),
-    Vertex(vec3(-0.5f,  0.5f,  0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2( 0.5f,  0.5f)),
-    Vertex(vec3(-0.5f,  0.5f, -0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2(-0.5f,  0.5f)),
+    Vertex(vec3(-0.5f, -0.5f, -0.5f),   vec3(1, 1, 1),   vec2(-0.5f, -0.5f)),
+    Vertex(vec3(-0.5f,  0.5f,  0.5f),   vec3(1, 1, 1),   vec2( 0.5f,  0.5f)),
+    Vertex(vec3(-0.5f,  0.5f, -0.5f),   vec3(1, 1, 1),   vec2(-0.5f,  0.5f)),
 
-    Vertex(vec3(-0.5f, -0.5f, -0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2(-0.5f, -0.5f)),
-    Vertex(vec3(-0.5f, -0.5f,  0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2( 0.5f, -0.5f)),
-    Vertex(vec3(-0.5f,  0.5f,  0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2( 0.5f,  0.5f)),
+    Vertex(vec3(-0.5f, -0.5f, -0.5f),   vec3(1, 1, 1),   vec2(-0.5f, -0.5f)),
+    Vertex(vec3(-0.5f, -0.5f,  0.5f),   vec3(1, 1, 1),   vec2( 0.5f, -0.5f)),
+    Vertex(vec3(-0.5f,  0.5f,  0.5f),   vec3(1, 1, 1),   vec2( 0.5f,  0.5f)),
 
     //top
-    Vertex(vec3(-0.5f,  0.5f,  0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2(-0.5f, -0.5f)),
-    Vertex(vec3( 0.5f,  0.5f, -0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2( 0.5f,  0.5f)),
-    Vertex(vec3(-0.5f,  0.5f, -0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2(-0.5f,  0.5f)),
+    Vertex(vec3(-0.5f,  0.5f,  0.5f),   vec3(1, 1, 1),   vec2(-0.5f, -0.5f)),
+    Vertex(vec3( 0.5f,  0.5f, -0.5f),   vec3(1, 1, 1),   vec2( 0.5f,  0.5f)),
+    Vertex(vec3(-0.5f,  0.5f, -0.5f),   vec3(1, 1, 1),   vec2(-0.5f,  0.5f)),
 
-    Vertex(vec3(-0.5f,  0.5f,  0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2(-0.5f, -0.5f)),
-    Vertex(vec3( 0.5f,  0.5f,  0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2( 0.5f, -0.5f)),
-    Vertex(vec3( 0.5f,  0.5f, -0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2( 0.5f,  0.5f)),
+    Vertex(vec3(-0.5f,  0.5f,  0.5f),   vec3(1, 1, 1),   vec2(-0.5f, -0.5f)),
+    Vertex(vec3( 0.5f,  0.5f,  0.5f),   vec3(1, 1, 1),   vec2( 0.5f, -0.5f)),
+    Vertex(vec3( 0.5f,  0.5f, -0.5f),   vec3(1, 1, 1),   vec2( 0.5f,  0.5f)),
 
     //bottom
-    Vertex(vec3( 0.5f, -0.5f, -0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2(-0.5f, -0.5f)),
-    Vertex(vec3(-0.5f, -0.5f,  0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2( 0.5f,  0.5f)),
-    Vertex(vec3(-0.5f, -0.5f, -0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2(-0.5f,  0.5f)),
+    Vertex(vec3( 0.5f, -0.5f, -0.5f),   vec3(1, 1, 1),   vec2(-0.5f, -0.5f)),
+    Vertex(vec3(-0.5f, -0.5f,  0.5f),   vec3(1, 1, 1),   vec2( 0.5f,  0.5f)),
+    Vertex(vec3(-0.5f, -0.5f, -0.5f),   vec3(1, 1, 1),   vec2(-0.5f,  0.5f)),
 
-    Vertex(vec3( 0.5f, -0.5f, -0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2(-0.5f, -0.5f)),
-    Vertex(vec3( 0.5f, -0.5f,  0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2( 0.5f, -0.5f)),
-    Vertex(vec3(-0.5f, -0.5f,  0.5f),   vec3(0.5f, 0.8f, 0.5f),   vec2( 0.5f,  0.5f)),
+    Vertex(vec3( 0.5f, -0.5f, -0.5f),   vec3(1, 1, 1),   vec2(-0.5f, -0.5f)),
+    Vertex(vec3( 0.5f, -0.5f,  0.5f),   vec3(1, 1, 1),   vec2( 0.5f, -0.5f)),
+    Vertex(vec3(-0.5f, -0.5f,  0.5f),   vec3(1, 1, 1),   vec2( 0.5f,  0.5f)),
 
 }
 
