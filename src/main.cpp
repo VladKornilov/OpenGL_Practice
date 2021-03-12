@@ -189,9 +189,9 @@ int main(int argc, char *argv[]) {
     CHECK_GL_ERRORS();
     
     // отключаем отображение задней части полигонов
-    glEnable(GL_CULL_FACE);
+    //glEnable(GL_CULL_FACE);
     // отбрасываться будут задние грани
-    glCullFace(GL_BACK);
+    //glCullFace(GL_BACK);
     // Определяем, в каком направлении должный обходиться вершины, для передней части (против часовой стрелки?)
     // задняя часть будет отбрасываться
     glFrontFace(GL_CCW);
