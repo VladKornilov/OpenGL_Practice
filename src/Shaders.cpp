@@ -57,18 +57,18 @@ GLuint createShader(){
             // вычисляем позицию точки в пространстве OpenGL
             gl_Position = uModelViewProjMat * vertexVec4;
             // цвет и текстурные координаты просто пробрасываем для интерполяции
-            vColor = aColor * aPos * 2;
+            vColor = aColor;
             vTexture = aTexture;
         }
     );
     const char* fragmentShader = STRINGIFY_SHADER(
         varying vec3 vColor;
-        varying vec2 vCoord;
-        uniform sampler2D vTexture;
+        varying vec2 vTexture;
+        uniform sampler2D newTexture0;
 
         void main () {
-            gl_FragColor = vec4(vColor, 1.0);
-            //gl_FragColor = texture2D(vTexture, vCoord) * vec4(vColor, 1.0);
+            //gl_FragColor = vec4(vColor, 1.0);
+            gl_FragColor = texture2D(newTexture0, vTexture) * vec4(vColor, 1.0);
         }
     );
 

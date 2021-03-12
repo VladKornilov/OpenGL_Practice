@@ -110,7 +110,7 @@ int main(int argc, char *argv[]) {
 #endif
     glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-    window = glfwCreateWindow(640, 480, "Simple example", NULL, NULL);
+    window = glfwCreateWindow(640, 480, "Cuuube", NULL, NULL);
     if (!window) {
         glfwTerminate();
         exit(EXIT_FAILURE);
@@ -153,7 +153,7 @@ int main(int argc, char *argv[]) {
     const unsigned char* version = glGetString(GL_VERSION);
     printf("OpenGL version = %s\n", version);
 
-    // оотношение сторон
+    // cоотношение сторон
     int width = 0;
     int height = 0;
     // Размер буффера кадра
@@ -206,7 +206,7 @@ int main(int argc, char *argv[]) {
     double time = glfwGetTime();
 
     // Загрузка текстуры
-    ImageData info = loadPngImage("/home/vlad/OpenGL/OpenGL_Practice_FULL-template/res/test.png");
+    ImageData info = loadPngImage("/home/vlad/GraphicalSystems/OpenGL_Practice/res/test.png");
     uint textureId = 0;
     if(info.loaded){
         glGenTextures(1, &textureId);
@@ -226,7 +226,13 @@ int main(int argc, char *argv[]) {
 
         // wipe the drawing surface clear
         glClearColor(0.0, 0.0, 0.0, 1.0);
+        glEnable(GL_DEPTH_TEST);
         glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, textureId);
+
         glUseProgram (shaderProgram);
 
         // матрица модель-вид-проекция
@@ -247,8 +253,8 @@ int main(int argc, char *argv[]) {
         glEnableVertexAttribArray(colorAttribLocation);
         glVertexAttribPointer(colorAttribLocation, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), OFFSETOF(Vertex, color));
         // Текстура вершины
-        //glEnableVertexAttribArray(textureAttribLocation);
-        //glVertexAttribPointer(textureAttribLocation, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), OFFSETOF(Vertex, texture));
+        glEnableVertexAttribArray(textureAttribLocation);
+        glVertexAttribPointer(textureAttribLocation, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), OFFSETOF(Vertex, texture));
         CHECK_GL_ERRORS();
         
 
