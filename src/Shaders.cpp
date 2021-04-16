@@ -44,18 +44,25 @@ GLuint createShader(){
     const char* vertexShader = STRINGIFY_SHADER(
         // vertex attribute
         attribute vec3 aPos;
+        attribute vec3 aNorm;
         attribute vec3 aColor;
         attribute vec2 aTexture;
         // uniforms
         uniform mat4 uModelViewProjMat;
         // output
         varying vec3 vColor;
+        varying vec3 vNorm;
         varying vec2 vTexture;
+        varying vec3 vFragPos;
 
         void main () {
             vec4 vertexVec4 = vec4(aPos, 1.0);      // последняя компонента 1, тк это точка
             // вычисляем позицию точки в пространстве OpenGL
             gl_Position = uModelViewProjMat * vertexVec4;
+
+            vNorm = mat3(uModelViewProjMat) * aNormal;
+            vFragPos = vec3(uModelViewProjMat * vec4(aPos, 1.0));
+
             // цвет и текстурные координаты просто пробрасываем для интерполяции
             vColor = aColor;
             vTexture = aTexture;
@@ -63,12 +70,57 @@ GLuint createShader(){
     );
     const char* fragmentShader = STRINGIFY_SHADER(
         varying vec3 vColor;
+        varying vec3 vNormal;
         varying vec2 vTexture;
+        varying vec3 vFragPos;
         uniform sampler2D newTexture0;
 
+        struct Light {
+            vec3 position;
+            vec3 color;
+            float ambient;
+            vec3 diffuse;
+            vec3 specular;
+            float constant;
+            float linear;
+            float quadratic;
+        };
+
+        Light light = Light(
+                    vec3(0.5f, 1.0f, 0.0f),
+                    vec3(1.0f, 1.0f, 1.0f),
+                    0.4f,
+                    vec3(0.9f, 0.9f, 0.9f),
+                    vec3(1.0f, 1.0f, 1.0f),
+                    1.0f,
+                    0.09f,
+                    0.032f
+                    );
+
         void main () {
+            vec3 ambient = light.ambient * vec3(texture2D(newTexture0, vCoord));
+
+            // diffuse
+            vec3 norm = normalize(vNormal);
+            vec3 lightDir = normalize(light.position - vFragPos);
+            float diff = max(dot(norm, lightDir), 0.0);
+            vec3 diffuse = light.diffuse * diff * vec3(texture2D(newTexture0, vCoord));
+
+            // specular
+            vec3 specular = vec3(0, 0, 0);
+
+            // attenuation
+            float distance = length(light.position - vFragPos);
+            float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
+
+            ambient *= attenuation;
+            diffuse *= attenuation;
+            specular *= attenuation;
+
+            vec3 result = ambient + diffuse + specular;
+
             //gl_FragColor = vec4(vColor, 1.0);
-            gl_FragColor = texture2D(newTexture0, vTexture + 0.5f) * vec4(vColor, 1.0);
+            gl_FragColor = texture2D(newTexture0, vTexture + 0.5f) * vec4(result * vColor, 1.0);
             int i;
             int j;
             for (i = -1; i <= 1; i++) {

@@ -18,13 +18,13 @@ using namespace glm;
 int cubeVertexCount = 6 * 2 * 3;
 Vertex cubeVertexes[] = {
     //front
-    Vertex(vec3(-0.5f, -0.5f,  0.5f),  vec3( 0.0f,  0.0f,  0.0f),  vec3(1, 1, 1),   vec2(-0.5f, -0.5f)),
-    Vertex(vec3( 0.5f,  0.5f,  0.5f),  vec3( 0.0f,  0.0f,  0.0f),  vec3(1, 1, 1),   vec2( 0.5f,  0.5f)),
-    Vertex(vec3(-0.5f,  0.5f,  0.5f),  vec3( 0.0f,  0.0f,  0.0f),  vec3(1, 1, 1),   vec2(-0.5f,  0.5f)),
-
-    Vertex(vec3(-0.5f, -0.5f,  0.5f),  vec3( 0.0f,  0.0f,  0.0f),  vec3(1, 1, 1),   vec2(-0.5f, -0.5f)),
-    Vertex(vec3( 0.5f, -0.5f,  0.5f),  vec3( 0.0f,  0.0f,  0.0f),  vec3(1, 1, 1),   vec2( 0.5f, -0.5f)),
-    Vertex(vec3( 0.5f,  0.5f,  0.5f),  vec3( 0.0f,  0.0f,  0.0f),  vec3(1, 1, 1),   vec2( 0.5f,  0.5f)),
+    Vertex(vec3(-0.5f, -0.5f,  0.5f),  vec3( 0.0f,  0.0f,  1.0f),  vec3(1, 1, 1),   vec2(-0.5f, -0.5f)),
+    Vertex(vec3( 0.5f,  0.5f,  0.5f),  vec3( 0.0f,  0.0f,  1.0f),  vec3(1, 1, 1),   vec2( 0.5f,  0.5f)),
+    Vertex(vec3(-0.5f,  0.5f,  0.5f),  vec3( 0.0f,  0.0f,  1.0f),  vec3(1, 1, 1),   vec2(-0.5f,  0.5f)),
+                                                               
+    Vertex(vec3(-0.5f, -0.5f,  0.5f),  vec3( 0.0f,  0.0f,  1.0f),  vec3(1, 1, 1),   vec2(-0.5f, -0.5f)),
+    Vertex(vec3( 0.5f, -0.5f,  0.5f),  vec3( 0.0f,  0.0f,  1.0f),  vec3(1, 1, 1),   vec2( 0.5f, -0.5f)),
+    Vertex(vec3( 0.5f,  0.5f,  0.5f),  vec3( 0.0f,  0.0f,  1.0f),  vec3(1, 1, 1),   vec2( 0.5f,  0.5f)),
 
     //right
     Vertex(vec3( 0.5f, -0.5f,  0.5f),  vec3( 0.0f,  0.0f,  0.0f),  vec3(1, 1, 1),   vec2(-0.5f, -0.5f)),

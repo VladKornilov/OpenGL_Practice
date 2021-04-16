@@ -7,11 +7,12 @@ using namespace glm;
 
 struct Vertex{
     vec3 pos;
+    vec3 normal;
     vec3 color;
     vec2 texture;
 
     // constructor
-    Vertex(vec3 inPos, vec3 inColor, vec2 inTex);
+    Vertex(vec3 inPos, vec3 inNormal, vec3 inColor, vec2 inTex);
 };
 
 #endif

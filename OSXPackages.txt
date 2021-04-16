@@ -1,3 +1,0 @@
-Для установленного homebrew:
-
-brew install cmake libpng glut glew glfw

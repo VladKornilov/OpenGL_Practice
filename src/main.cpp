@@ -170,6 +170,7 @@ int main(int argc, char *argv[]) {
 
     // аттрибуты вершин шейдера
     int posAttribLocation = glGetAttribLocation(shaderProgram, "aPos");
+    int normAttribLocation = glGetAttribLocation(shaderProgram, "aNorm");
     int colorAttribLocation = glGetAttribLocation(shaderProgram, "aColor");
     int textureAttribLocation = glGetAttribLocation(shaderProgram, "aTexture");
     CHECK_GL_ERRORS();
@@ -210,12 +211,12 @@ int main(int argc, char *argv[]) {
     GLuint obamaTexturesId[6];
 
     for (int i = 0; i < 6; i++) {
-        string path = "/home/vlad/GraphicalSystems/OpenGL_Practice/res/";
+        string path = "../OpenGL_Practice/res/";
         string image = "obama";
         char id = '0' + i;
         image.append(1, id);
         image += ".png";
-        cout << path + image << endl;
+        //cout << path + image << endl;
         obamaInfo[i] = new ImageData(loadPngImage((path + image).c_str()));
     }
 
@@ -278,6 +279,9 @@ int main(int argc, char *argv[]) {
         // Позиции
         glEnableVertexAttribArray(posAttribLocation);
         glVertexAttribPointer(posAttribLocation, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), OFFSETOF(Vertex, pos));
+        // Нормали
+        glEnableVertexAttribArray(normAttribLocation);
+        glVertexAttribPointer(normAttribLocation, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), OFFSETOF(Vertex, normal));
         // Цвет вершины
         glEnableVertexAttribArray(colorAttribLocation);
         glVertexAttribPointer(colorAttribLocation, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), OFFSETOF(Vertex, color));
