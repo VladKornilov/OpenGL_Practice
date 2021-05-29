@@ -18,6 +18,6 @@ struct ImageData{
 };
 
 
-ImageData loadPngImage(const char* fileName);
+ImageData *loadPngImage(const char* fileName);
 
 #endif

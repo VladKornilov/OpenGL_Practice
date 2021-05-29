@@ -19,6 +19,7 @@
 #include "Figures.h"
 #include "Shaders.h"
 #include "ObjLoader.h"
+#include "SpaceBody.h"
 
 // Документация
 // https://www.opengl.org/sdk/docs/man/html/
@@ -110,7 +111,7 @@ int main(int argc, char *argv[]) {
 #endif
     glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-    window = glfwCreateWindow(640, 480, "Cuuube", NULL, NULL);
+    window = glfwCreateWindow(700, 650, "Cuuube", NULL, NULL);
     if (!window) {
         glfwTerminate();
         exit(EXIT_FAILURE);
@@ -176,7 +177,7 @@ int main(int argc, char *argv[]) {
     CHECK_GL_ERRORS();
 
     // юниформы шейдера
-    int modelViewProjMatrixLocation = glGetUniformLocation(shaderProgram, "uModelViewProjMat");
+    int MVPMatrixLocation = glGetUniformLocation(shaderProgram, "uModelViewProjMat");
     CHECK_GL_ERRORS();
 
     // VBO, данные о вершинах
@@ -184,7 +185,8 @@ int main(int argc, char *argv[]) {
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     //glBufferData(GL_ARRAY_BUFFER, triangleVertexCount * sizeof(Vertex), triangleVertexes, GL_STATIC_DRAW);
-    glBufferData(GL_ARRAY_BUFFER, cubeVertexCount * sizeof(Vertex), cubeVertexes, GL_STATIC_DRAW);
+    //glBufferData(GL_ARRAY_BUFFER, cubeVertexCount * sizeof(Vertex), cubeVertexes, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sphereVertexCount * sizeof(Vertex), sphereVertexes, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     CHECK_GL_ERRORS();
@@ -206,44 +208,88 @@ int main(int argc, char *argv[]) {
     // текущее время
     double time = glfwGetTime();
 
-    // Загрузка текстур
-    ImageData *obamaInfo[6];
-    GLuint obamaTexturesId[6];
 
-    for (int i = 0; i < 6; i++) {
-        string path = "../OpenGL_Practice/res/";
-        string image = "obama";
-        char id = '0' + i;
-        image.append(1, id);
-        image += ".png";
-        //cout << path + image << endl;
-        obamaInfo[i] = new ImageData(loadPngImage((path + image).c_str()));
+    bool realSystem = false;
+
+    float pixel = 1. / std::min(width, height);
+    int numOfPlanets = 4;
+
+
+
+
+
+    float realSizes[9] = { 696300, 2439, 6050, 6371, 3389, 69911, 58232, 25362, 24622 };
+    float realSolarR = 0.1; float divisor = realSizes[0] / realSolarR;
+    for (int i = 0; i < 9; i++) {
+        realSizes[i] /= divisor;
+        if (realSizes[i] < pixel)
+            realSizes[i] = pixel;
     }
 
-    glGenTextures(6, obamaTexturesId);
-    for (int i = 0; i < 6; i++) {
-        glBindTexture(GL_TEXTURE_2D, obamaTexturesId[i]);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,              // формат внутри OpenGL
-                     obamaInfo[i]->width, obamaInfo[i]->height, 0,            // ширинна, высота, границы
-                     obamaInfo[i]->withAlpha ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, obamaInfo[i]->data); // формат входных данных
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        CHECK_GL_ERRORS();
+    float distances[numOfPlanets];
+    distances[0] = 0;
+
+    float minR = 0.2, maxR = 0.97;
+    float deltDist = (maxR - minR) / numOfPlanets;
+    for (int i = 1; i < numOfPlanets; i++) {
+        distances[i] = minR + i * deltDist;
+    }
+
+    float realDistances[9] = { 0, 0.387, 0.72, 1, 1.52, 5.2, 9.55, 19.2, 30.1 };
+    float maxRealR = realDistances[numOfPlanets-1] * 1.2;
+    for (int i = 1; i < 9; i++) {
+        realDistances[i] /= maxRealR;
+        realDistances[i] += realSolarR;
+        //if (realDistances[i] < realSolarR)
+        //    realDistances[i] = 1.2 * realSolarR + pixel * i;
+    }
+
+    float realSpeeds[9] = { 0, 47.87, 35.02, 29.76, 24.13, 13.07, 9.67, 6.84, 5.48 };
+    float speedMultiply = 0.02;
+    for (int i = 0; i < 9; i++)
+        realSpeeds[i] *= speedMultiply;
+
+    SpaceBody *planets[numOfPlanets];
+    if (realSystem)
+        planets[0] = new SpaceBody(0, realDistances[0], 30, realSpeeds[0], realSizes[0]);
+    else
+        planets[0] = new SpaceBody(0, 0.0, 30, 0, realSizes[0]);
+
+    for (int i = 1; i < numOfPlanets; i++) {
+        if (realSystem)
+            planets[i] = new SpaceBody(i, realDistances[i], 30, realSpeeds[i], realSizes[i]);
+        else
+            planets[i] = new SpaceBody(i, distances[i], 30, realSpeeds[i], deltDist / 2.1);
     }
 
     // Загрузка текстуры
-//    ImageData info = loadPngImage("/home/vlad/GraphicalSystems/OpenGL_Practice/res/test.png");
+//    ImageData info = *loadPngImage("/home/vlad/GraphicalSystems/OpenGL_Practice/res/earth2048.png");
 //    GLuint textureId = 0;
 //    if(info.loaded){
 //        glGenTextures(1, &textureId);
 //        glBindTexture(GL_TEXTURE_2D, textureId);
 //        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,              // формат внутри OpenGL
-//                     info.width, info.height, 0,            // ширинна, высота, границы
+//                     info.width, info.height, 0,            // ширина, высота, границы
 //                     info.withAlpha ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, info.data); // формат входных данных
 //        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 //        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 //        CHECK_GL_ERRORS();
 //    }
+
+    GLuint planetTextures[numOfPlanets];
+    glGenTextures(numOfPlanets, planetTextures);
+    for (int i = 0; i < numOfPlanets; i++) {
+        ImageData *im = planets[i]->getImage();
+        if (im->loaded) {
+            glBindTexture(GL_TEXTURE_2D, planetTextures[i]);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
+                         im->width, im->height, 0,
+                         im->withAlpha ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, im->data);
+            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            CHECK_GL_ERRORS();
+        }
+    }
 
     while (!glfwWindowShouldClose(window)){
         // приращение времени
@@ -256,47 +302,48 @@ int main(int argc, char *argv[]) {
         //glEnable(GL_DEPTH_TEST);
         glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
-        for (int i = 0; i < 6; i++) {
-            glActiveTexture(GL_TEXTURE0 + i);
-            glBindTexture(GL_TEXTURE_2D, obamaTexturesId[i]);
-        }
-
-
+        glActiveTexture(GL_TEXTURE0);
         glUseProgram (shaderProgram);
 
-        // матрица модель-вид-проекция
-        mat4 modelViewProjMatrix = mat4(1.0);
+        for (int i = 0; i < numOfPlanets; i++) {
 
-        modelViewProjMatrix = glm::rotate(modelViewProjMatrix, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+            glBindTexture(GL_TEXTURE_2D, planetTextures[i]);
 
-        // выставляем матрицу трансформации в пространство OpenGL
-        glUniformMatrix4fv(modelViewProjMatrixLocation, 1, false, glm::value_ptr(modelViewProjMatrix));
-        
-        // sizeof(Vertex) - размер блока данных о вершине
-        // OFFSETOF(Vertex, color) - смещение от начала
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        // Позиции
-        glEnableVertexAttribArray(posAttribLocation);
-        glVertexAttribPointer(posAttribLocation, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), OFFSETOF(Vertex, pos));
-        // Нормали
-        glEnableVertexAttribArray(normAttribLocation);
-        glVertexAttribPointer(normAttribLocation, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), OFFSETOF(Vertex, normal));
-        // Цвет вершины
-        glEnableVertexAttribArray(colorAttribLocation);
-        glVertexAttribPointer(colorAttribLocation, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), OFFSETOF(Vertex, color));
-        // Текстура вершины
-        glEnableVertexAttribArray(textureAttribLocation);
-        glVertexAttribPointer(textureAttribLocation, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), OFFSETOF(Vertex, texture));
-        CHECK_GL_ERRORS();
-        
+            planets[i]->translateAndRotate(time);
+            // выставляем матрицу трансформации в пространство OpenGL
+            //glUniformMatrix4fv(MVPMatrixLocation, 1, false, glm::value_ptr(modelViewTransformMatrix));
+            glUniformMatrix4fv(MVPMatrixLocation, 1, false, glm::value_ptr(planets[i]->getMVP()));
+
+            // sizeof(Vertex) - размер блока данных о вершине
+            // OFFSETOF(Vertex, color) - смещение от начала
+            glBindBuffer(GL_ARRAY_BUFFER, VBO);
+            // Позиции
+            glEnableVertexAttribArray(posAttribLocation);
+            glVertexAttribPointer(posAttribLocation, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), OFFSETOF(Vertex, pos));
+            // Нормали
+            glEnableVertexAttribArray(normAttribLocation);
+            glVertexAttribPointer(normAttribLocation, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), OFFSETOF(Vertex, normal));
+            // Цвет вершины
+            glEnableVertexAttribArray(colorAttribLocation);
+            glVertexAttribPointer(colorAttribLocation, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), OFFSETOF(Vertex, color));
+            // Текстура вершины
+            glEnableVertexAttribArray(textureAttribLocation);
+            glVertexAttribPointer(textureAttribLocation, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), OFFSETOF(Vertex, texture));
+            CHECK_GL_ERRORS();
 
 
-        // рисуем
-        glDrawArrays(GL_TRIANGLES, 0, cubeVertexCount); // draw points 0-3 from the currently bound VAO with current in-use shader
-        
-        // VBO off
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+            // рисуем
+            //glDrawArrays(GL_TRIANGLES, 0, cubeVertexCount); // draw points 0-3 from the currently bound VAO with current in-use shader
+            //glDrawArrays(GL_TRIANGLES, 0, sphereVertexCount);
+            glDrawElements(GL_TRIANGLES,
+                           sp.getIndexCount(),
+                           GL_UNSIGNED_INT,
+                           sp.getIndices());
+            // VBO off
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+        }
+
 
         glfwSwapBuffers(window);
         glfwPollEvents();
