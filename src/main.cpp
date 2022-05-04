@@ -209,17 +209,18 @@ int main(int argc, char *argv[]) {
     double time = glfwGetTime();
 
 
-    bool realSystem = false;
+    bool realSystem = 1;
+    int numOfPlanets = 9;
 
     float pixel = 1. / std::min(width, height);
-    int numOfPlanets = 4;
 
 
 
 
 
-    float realSizes[9] = { 696300, 2439, 6050, 6371, 3389, 69911, 58232, 25362, 24622 };
-    float realSolarR = 0.1; float divisor = realSizes[0] / realSolarR;
+    float realSizes[9] = { 69630, 2439, 6050, 6371, 3389, 69911, 58232, 25362, 24622 };
+    float realSolarR = 0.1;
+    float divisor = realSizes[0] / realSolarR;
     for (int i = 0; i < 9; i++) {
         realSizes[i] /= divisor;
         if (realSizes[i] < pixel)
